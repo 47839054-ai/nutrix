@@ -1,0 +1,21 @@
+{
+  "appId": "com.nutrix.app",
+  "appName": "Nutrix",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "http",
+    "cleartext": true
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": true,
+      "launchShowDuration": 2000,
+      "backgroundColor": "#14b8a6",
+      "showSpinner": false
+    },
+    "StatusBar": {
+      "style": "DARK",
+      "backgroundColor": "#14b8a6"
+    }
+  }
+}
