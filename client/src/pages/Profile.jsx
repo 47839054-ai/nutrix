@@ -23,17 +23,17 @@ import {
 } from 'lucide-react'
 
 const ACTIVITY_LEVELS = [
-  { value: 'sedentary', label: 'Sedentario', desc: 'Poco o ningun ejercicio' },
-  { value: 'light', label: 'Ligero', desc: 'Ejercicio ligero 1-3 dias/semana' },
-  { value: 'moderate', label: 'Moderado', desc: 'Ejercicio moderado 3-5 dias/semana' },
-  { value: 'active', label: 'Activo', desc: 'Ejercicio intenso 6-7 dias/semana' },
+  { value: 'sedentary', label: 'Sedentario', desc: 'Poco o ningún ejercicio' },
+  { value: 'light', label: 'Ligero', desc: 'Ejercicio ligero 1-3 días/semana' },
+  { value: 'moderate', label: 'Moderado', desc: 'Ejercicio moderado 3-5 días/semana' },
+  { value: 'active', label: 'Activo', desc: 'Ejercicio intenso 6-7 días/semana' },
   { value: 'very_active', label: 'Muy activo', desc: 'Ejercicio muy intenso diario' },
 ]
 
 const GOALS = [
   { value: 'lose_weight', label: 'Perder peso' },
   { value: 'maintain', label: 'Mantener peso' },
-  { value: 'gain_muscle', label: 'Ganar musculo' },
+  { value: 'gain_muscle', label: 'Ganar músculo' },
 ]
 
 export default function Profile() {

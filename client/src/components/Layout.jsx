@@ -1,5 +1,5 @@
 import { Outlet, NavLink, useLocation } from 'react-router-dom'
-import { Home, ScanLine, Scale, TrendingUp, User } from 'lucide-react'
+import { Home, ScanLine, Scale, TrendingUp, User, ChefHat } from 'lucide-react'
 import { useTheme } from '../contexts/ThemeContext'
 import { Moon, Sun } from 'lucide-react'
 import logo from '../assets/logo.png'
@@ -8,6 +8,7 @@ const navItems = [
   { to: '/app/dashboard', label: 'Inicio', icon: Home },
   { to: '/app/plan', label: 'Plan', icon: Scale },
   { to: '/app/scan', label: 'Escaner', icon: ScanLine },
+  { to: '/app/recipes', label: 'Recetas', icon: ChefHat },
   { to: '/app/progress', label: 'Progreso', icon: TrendingUp },
   { to: '/app/profile', label: 'Perfil', icon: User },
 ]
@@ -22,7 +23,7 @@ export default function Layout() {
         <div className="flex items-center justify-between px-4 h-14">
           <div className="flex items-center gap-2">
             <img src={logo} alt="Nutrix" className="w-8 h-8 rounded-lg object-cover ring-1 ring-brand-500/30" />
-            <h1 className="text-xl font-bold text-brand-600 dark:text-brand-400">
+            <h1 className="text-xl font-bold bg-gradient-to-r from-deep-700 to-brand-500 bg-clip-text text-transparent">
               Nutrix
             </h1>
           </div>

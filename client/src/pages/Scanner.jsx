@@ -8,6 +8,7 @@ import {
   Plus,
   X,
   AlertCircle,
+  AlertTriangle,
   Loader2,
   Package,
   Keyboard,
@@ -93,9 +94,33 @@ function FoodCard({ food, onAdd }) {
           {food.brand && (
             <p className="text-sm text-gray-500 dark:text-gray-400">{food.brand}</p>
           )}
+          {food.category === 'off' && (
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-medium bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 mt-1">
+              Datos de Open Food Facts
+            </span>
+          )}
         </div>
         <NutritionScoreBadge score={food.nutritionalScore || food.nutritionScore} />
       </div>
+
+      {food.alerts && food.alerts.length > 0 && (
+        <div className="p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl space-y-1.5">
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-red-600 dark:text-red-400">
+            <AlertTriangle className="w-4 h-4 flex-shrink-0" />
+            Contiene ingredientes que no consumís
+          </p>
+          <div className="flex flex-wrap gap-1.5">
+            {food.alerts.map((a) => (
+              <span
+                key={a.id}
+                className="text-xs bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 px-2 py-0.5 rounded-full"
+              >
+                {a.label}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-4 gap-2 text-center">
         <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-2">
@@ -662,7 +687,7 @@ export default function Scanner() {
                   />
                 </div>
                 <div>
-                  <label className="label">Azucar (g)</label>
+                  <label className="label">Azúcar (g)</label>
                   <input
                     type="number"
                     value={manualForm.sugar}

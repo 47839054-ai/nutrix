@@ -11,6 +11,7 @@ const progressRoutes = require("./routes/progress");
 const foodRoutes = require("./routes/food");
 const mealRoutes = require("./routes/meals");
 const statsRoutes = require("./routes/stats");
+const recipeRoutes = require("./routes/recipes");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use("/api/progress", progressRoutes);
 app.use("/api/foods", foodRoutes);
 app.use("/api/meals", mealRoutes);
 app.use("/api/stats", statsRoutes);
+app.use("/api/recipes", recipeRoutes);
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 

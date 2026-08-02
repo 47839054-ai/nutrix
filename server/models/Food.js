@@ -21,7 +21,7 @@ const foodSchema = new mongoose.Schema(
     ingredients: { type: String, default: "" },
     category: {
       type: String,
-      enum: ["scanned", "barcode", "custom", "search"],
+      enum: ["scanned", "barcode", "custom", "search", "off"],
       default: "custom",
     },
     nutritionalScore: { type: Number, default: 5, min: 0, max: 10 },

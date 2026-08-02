@@ -12,6 +12,7 @@ import Scanner from './pages/Scanner'
 import ProgressPage from './pages/ProgressPage'
 import HelpPage from './pages/HelpPage'
 import Profile from './pages/Profile'
+import Recipes from './pages/Recipes'
 
 function App() {
   const { isAuthenticated, loading, user } = useAuth()
@@ -52,6 +53,7 @@ function App() {
         <Route path="plan" element={<PlanView />} />
         <Route path="scan" element={<Scanner />} />
         <Route path="progress" element={<ProgressPage />} />
+        <Route path="recipes" element={<Recipes />} />
         <Route path="help" element={<HelpPage />} />
         <Route path="profile" element={<Profile />} />
       </Route>

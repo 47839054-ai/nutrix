@@ -20,54 +20,85 @@ import {
 const STEPS = [
   { label: 'Datos', icon: Activity },
   { label: 'Actividad', icon: Target },
-  { label: 'Alimentacion', icon: Salad },
+  { label: 'Alimentación', icon: Salad },
   { label: 'Preferencias', icon: Ban },
   { label: 'Salud', icon: ShieldCheck },
   { label: 'Resumen', icon: ClipboardCheck },
 ]
 
 const ACTIVITY_OPTIONS = [
-  { value: 'sedentario', label: 'Sedentario', desc: 'Poco o ningun ejercicio', icon: '🪑' },
-  { value: 'moderado', label: 'Moderado', desc: 'Ejercicio 3-5 dias/semana', icon: '🏃' },
-  { value: 'activo', label: 'Activo', desc: 'Ejercicio intenso 6-7 dias/semana', icon: '💪' },
+  { value: 'sedentario', label: 'Sedentario', desc: 'Poco o ningún ejercicio', icon: '🪑' },
+  { value: 'moderado', label: 'Moderado', desc: 'Ejercicio 3-5 días/semana', icon: '🏃' },
+  { value: 'activo', label: 'Activo', desc: 'Ejercicio intenso 6-7 días/semana', icon: '💪' },
   { value: 'muy_activo', label: 'Muy activo', desc: 'Ejercicio muy intenso diario', icon: '🔥' },
 ]
 
 const GOAL_OPTIONS = [
-  { value: 'bajar', label: 'Bajar de peso', desc: 'Deficit calorico moderado', icon: '⬇️' },
-  { value: 'mantener', label: 'Mantener peso', desc: 'Equilibrio calorico', icon: '⚖️' },
-  { value: 'masa', label: 'Ganar musculo', desc: 'Superavit calorico leve', icon: '💪' },
+  { value: 'bajar', label: 'Bajar de peso', desc: 'Déficit calórico moderado', icon: '⬇️' },
+  { value: 'mantener', label: 'Mantener peso', desc: 'Equilibrio calórico', icon: '⚖️' },
+  { value: 'masa', label: 'Ganar músculo', desc: 'Superávit calórico leve', icon: '💪' },
 ]
 
 const FOOD_TYPES = [
-  { value: 'omnivoro', label: 'Omnivoro', desc: 'Como de todo, carne y vegetales', icon: '🍽️' },
-  { value: 'vegetariano', label: 'Vegetariano', desc: 'Sin carne, pero con lacteos y huevos', icon: '🥚' },
+  { value: 'omnivoro', label: 'Omnívoro', desc: 'Como de todo, carne y vegetales', icon: '🍽️' },
+  { value: 'vegetariano', label: 'Vegetariano', desc: 'Sin carne, pero con lácteos y huevos', icon: '🥚' },
   { value: 'vegano', label: 'Vegano', desc: 'Solo productos de origen vegetal', icon: '🌱' },
 ]
 
 const FOODS_TO_AVOID = [
-  { id: 'carne', label: 'Carne roja', icon: '🥩' },
-  { id: 'cerdo', label: 'Cerdo', icon: '🐷' },
+  { id: 'carne_vacuna', label: 'Carne vacuna', icon: '🥩' },
+  { id: 'carne_pollo', label: 'Pollo', icon: '🍗' },
+  { id: 'carne_cerdo', label: 'Cerdo', icon: '🐷' },
+  { id: 'cordero', label: 'Cordero', icon: '🐑' },
   { id: 'pescado', label: 'Pescado', icon: '🐟' },
   { id: 'mariscos', label: 'Mariscos', icon: '🦐' },
+  { id: 'leche', label: 'Leche', icon: '🥛' },
+  { id: 'queso', label: 'Queso', icon: '🧀' },
+  { id: 'manteca', label: 'Manteca', icon: '🧈' },
+  { id: 'yogur', label: 'Yogur', icon: '🥣' },
+  { id: 'lacteos', label: 'Lácteos (todos)', icon: '🥛' },
   { id: 'huevo', label: 'Huevo', icon: '🥚' },
-  { id: 'lacteos', label: 'Lacteos', icon: '🥛' },
-  { id: 'frutos_secos', label: 'Frutos secos', icon: '🥜' },
   { id: 'trigo', label: 'Trigo / Gluten', icon: '🌾' },
+  { id: 'avena', label: 'Avena', icon: '🌾' },
+  { id: 'pan', label: 'Pan / Panificados', icon: '🍞' },
+  { id: 'pastas', label: 'Fideos / Pastas', icon: '🍝' },
+  { id: 'galletitas', label: 'Galletitas', icon: '🍪' },
+  { id: 'arroz', label: 'Arroz', icon: '🍚' },
+  { id: 'maiz', label: 'Maíz', icon: '🌽' },
   { id: 'soja', label: 'Soja', icon: '🫘' },
-  { id: 'maiz', label: 'Maiz', icon: '🌽' },
+  { id: 'lentejas', label: 'Lentejas', icon: '🫘' },
+  { id: 'garbanzos', label: 'Garbanzos', icon: '🫘' },
+  { id: 'porotos', label: 'Porotos / Frijoles', icon: '🫘' },
+  { id: 'banana', label: 'Banana', icon: '🍌' },
+  { id: 'citricos', label: 'Cítricos', icon: '🍊' },
+  { id: 'manzana', label: 'Manzana', icon: '🍎' },
+  { id: 'frutas_rojas', label: 'Frutas rojas', icon: '🍓' },
   { id: 'papa', label: 'Papa', icon: '🥔' },
+  { id: 'batata', label: 'Batata', icon: '🍠' },
+  { id: 'zapallo', label: 'Zapallo / Calabaza', icon: '🎃' },
   { id: 'tomate', label: 'Tomate', icon: '🍅' },
   { id: 'cebolla', label: 'Cebolla / Ajo', icon: '🧅' },
-  { id: 'champinones', label: 'Champinones', icon: '🍄' },
-  { id: 'ultraprocesados', label: 'Ultraprocesados', icon: '🍔' },
-  { id: 'azucar', label: 'Azucar / Dulces', icon: '🍬' },
-  { id: 'frituras', label: 'Frituras', icon: '🍟' },
+  { id: 'champinones', label: 'Champiñones / Hongos', icon: '🍄' },
+  { id: 'coliflor', label: 'Coliflor / Brócoli', icon: '🥦' },
+  { id: 'palta', label: 'Palta', icon: '🥑' },
+  { id: 'mani', label: 'Maní', icon: '🥜' },
+  { id: 'frutos_secos', label: 'Frutos secos (todos)', icon: '🥜' },
+  { id: 'sesamo', label: 'Sésamo', icon: '🌰' },
   { id: 'gaseosa', label: 'Gaseosas', icon: '🥤' },
+  { id: 'jugo_azucar', label: 'Jugos con azúcar', icon: '🧃' },
+  { id: 'cafe', label: 'Café / Cafeína', icon: '☕' },
+  { id: 'alcohol', label: 'Alcohol', icon: '🍺' },
+  { id: 'ultraprocesados', label: 'Ultraprocesados', icon: '🍔' },
+  { id: 'azucar', label: 'Azúcar / Dulces', icon: '🍬' },
+  { id: 'chocolate', label: 'Chocolate / Cacao', icon: '🍫' },
+  { id: 'frituras', label: 'Frituras', icon: '🍟' },
+  { id: 'embutidos', label: 'Fiambres / Embutidos', icon: '🥓' },
+  { id: 'snacks', label: 'Snacks salados', icon: '🍿' },
+  { id: 'mayonesa', label: 'Mayonesa / Aderezos', icon: '🥫' },
 ]
 
 const RESTRICTIONS_OPTIONS = [
-  { id: 'sin_tacc', label: 'Sin TACC / Celiaco' },
+  { id: 'sin_tacc', label: 'Sin TACC / Celíaco' },
   { id: 'sin_lactosa', label: 'Sin lactosa' },
   { id: 'sin_gluten', label: 'Sin gluten' },
   { id: 'sin_frutos_secos', label: 'Sin frutos secos' },
@@ -76,8 +107,10 @@ const RESTRICTIONS_OPTIONS = [
 
 const HEALTH_OPTIONS = [
   { id: 'diabetes', label: 'Diabetes' },
-  { id: 'hipertension', label: 'Hipertension' },
+  { id: 'hipertension', label: 'Hipertensión' },
   { id: 'colesterol', label: 'Colesterol alto' },
+  { id: 'celiaquia', label: 'Celiaquía' },
+  { id: 'lactosa_intolerancia', label: 'Intolerancia a la lactosa' },
   { id: 'obesidad', label: 'Sobrepeso / Obesidad' },
   { id: 'embarazo', label: 'Embarazo / Lactancia' },
   { id: 'renal', label: 'Enfermedad renal' },
@@ -146,7 +179,7 @@ export default function NutritionalTest() {
           return false
         }
         if (form.edad < 10 || form.edad > 120) {
-          setError('La edad debe ser entre 10 y 120 anios')
+          setError('La edad debe ser entre 10 y 120 años')
           return false
         }
         if (form.peso < 20 || form.peso > 300) {
@@ -170,7 +203,7 @@ export default function NutritionalTest() {
         return true
       case 2:
         if (!form.tipoAlimentacion) {
-          setError('Selecciona tu tipo de alimentacion')
+          setError('Selecciona tu tipo de alimentación')
           return false
         }
         return true
@@ -272,10 +305,10 @@ export default function NutritionalTest() {
           <div className="space-y-4">
             <div className="mb-4">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                Cuentanos sobre ti
+                Cuéntanos sobre ti
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Estos datos nos ayudan a calcular tus necesidades caloricas
+                Estos datos nos ayudan a calcular tus necesidades calóricas
               </p>
             </div>
 
@@ -287,7 +320,7 @@ export default function NutritionalTest() {
                   value={form.edad}
                   onChange={(e) => update('edad', e.target.value)}
                   className="input-field"
-                  placeholder="Anios"
+                  placeholder="Años"
                   min="10"
                   max="120"
                 />
@@ -327,7 +360,7 @@ export default function NutritionalTest() {
                   value={form.altura}
                   onChange={(e) => update('altura', e.target.value)}
                   className="input-field"
-                  placeholder="Centimetros"
+                  placeholder="Centímetros"
                   min="50"
                   max="250"
                 />
@@ -360,7 +393,7 @@ export default function NutritionalTest() {
                 Actividad y objetivo
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Que tan activo sos y que queres lograr?
+                ¿Qué tan activo sos y qué querés lograr?
               </p>
             </div>
 
@@ -417,10 +450,10 @@ export default function NutritionalTest() {
           <div className="space-y-6">
             <div className="mb-4">
               <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                Tipo de alimentacion
+                Tipo de alimentación
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Como es tu alimentacion habitual?
+                ¿Cómo es tu alimentación habitual?
               </p>
             </div>
 
@@ -491,7 +524,7 @@ export default function NutritionalTest() {
                 Preferencias de comidas
               </h2>
               <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Selecciona los alimentos que NO queres incluir en tu plan
+                Seleccioná los alimentos que NO querés incluir en tu plan
               </p>
             </div>
 
@@ -549,7 +582,7 @@ export default function NutritionalTest() {
 
             <div>
               <label className="label text-base font-semibold mb-3 block">
-               enes alguna condicion?
+                ¿Tenés alguna condición?
               </label>
               <div className="space-y-2">
                 {HEALTH_OPTIONS.map((opt) => (
@@ -603,7 +636,7 @@ export default function NutritionalTest() {
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
                   <span className="text-gray-500 dark:text-gray-400">Edad:</span>
-                  <span className="ml-2 font-medium text-gray-900 dark:text-gray-100">{form.edad} anios</span>
+                  <span className="ml-2 font-medium text-gray-900 dark:text-gray-100">{form.edad} años</span>
                 </div>
                 <div>
                   <span className="text-gray-500 dark:text-gray-400">Sexo:</span>
@@ -639,7 +672,7 @@ export default function NutritionalTest() {
             </div>
 
             <div className="card">
-              <h3 className="section-title text-sm">Alimentacion</h3>
+              <h3 className="section-title text-sm">Alimentación</h3>
               <div className="space-y-2 text-sm">
                 <div>
                   <span className="text-gray-500 dark:text-gray-400">Tipo:</span>
@@ -688,7 +721,7 @@ export default function NutritionalTest() {
                   <div>
                     <p className="text-sm font-medium text-gray-700 dark:text-gray-300">Tu IMC estimado</p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">
-                      Se calcularan calorias, macros y plan segun tus datos
+                      Se calcularán calorías, macros y plan según tus datos
                     </p>
                   </div>
                   <div className="text-right">
@@ -714,7 +747,7 @@ export default function NutritionalTest() {
                 className="flex items-center justify-center gap-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
                 <ChevronLeft className="w-4 h-4" />
-                Atras
+                Atrás
               </button>
             )}
             {step < STEPS.length - 1 ? (

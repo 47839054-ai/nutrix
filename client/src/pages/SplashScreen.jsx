@@ -37,7 +37,7 @@ export default function SplashScreen() {
   }, [navigate, isAuthenticated, user])
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-brand-500 to-brand-700">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-brand-500 via-deep-700 to-deep-900">
       <div
         className={`flex flex-col items-center gap-4 transition-all duration-1000 ${
           visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
@@ -47,7 +47,11 @@ export default function SplashScreen() {
           <img src={logo} alt="Nutrix" className="w-full h-full object-cover" />
         </div>
         <h1 className="text-4xl font-bold text-white tracking-tight">Nutrix</h1>
-        <p className="text-brand-100 text-lg font-medium">Nutrición inteligente</p>
+        <div className="flex flex-col items-center gap-1.5">
+          <div className="w-16 h-0.5 bg-brand-300 rounded-full" />
+          <p className="text-brand-100 text-[11px] font-light tracking-[0.35em] uppercase">Tu guía de nutrición</p>
+          <div className="w-16 h-0.5 bg-brand-300 rounded-full" />
+        </div>
       </div>
       <div
         className={`mt-12 transition-opacity duration-700 delay-500 ${

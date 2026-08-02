@@ -43,7 +43,7 @@ Reglas:
 - El plan de comidas debe tener 4 comidas (Desayuno, Almuerzo, Merienda, Cena).
 - Las calorias totales de las 4 comidas deben sumar aproximadamente las calorias del plan.
 - Distribui las calorias: Desayuno ~25%, Almuerzo ~35%, Merienda ~15%, Cena ~25%.
-- Respetá las restricciones alimentarias, tipo de alimentacion (vegano/vegetariano/omnivoro) y preferencias de comidas a evitar.
+- Respetá las restricciones alimentarias, tipo de alimentación (vegano/vegetariano/omnivoro) y preferencias de comidas a evitar.
 - Si el usuario tiene condiciones de salud, inclui recomendaciones especificas.
 - No agregues nada fuera del JSON.`;
 
@@ -56,7 +56,7 @@ async function generarPlanConIA(perfil, seed = 0) {
 
   const perfilConInstruccion = {
     ...perfil,
-    instruccion_rotacion: `Esta es la variante ${seed % 4} del plan (el plan se rota cada 3 dias para que la persona no se aburra de comer siempre lo mismo). Proponé comidas, alimentos y productos DISTINTOS a los de otras variantes, manteniendo siempre las restricciones, el tipo de alimentacion y el objetivo.`,
+    instruccion_rotacion: `Esta es la variante ${seed % 4} del plan (el plan se rota cada 3 días para que la persona no se aburra de comer siempre lo mismo). Proponé comidas, alimentos y productos DISTINTOS a los de otras variantes, manteniendo siempre las restricciones, el tipo de alimentación y el objetivo.`,
   };
 
   const response = await client.messages.create({

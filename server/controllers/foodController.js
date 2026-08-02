@@ -1,6 +1,22 @@
 const Food = require("../models/Food");
 const Meal = require("../models/Meal");
+const TestAnswers = require("../models/TestAnswers");
 const { calculateNutritionalScore } = require("../utils/nutritionScore");
+const { detectIngredientWarnings } = require("../utils/foodPreferences");
+const { buscarProductoOFF } = require("../utils/openFoodFacts");
+
+// Agrega alertas de ingredientes no consumibles según las preferencias del usuario.
+async function attachIngredientWarnings(foods, userId) {
+  if (!foods || foods.length === 0) return;
+  const answers = await TestAnswers.findOne({ userId });
+  const preferencias = answers?.preferenciasNoComer || [];
+  if (preferencias.length === 0) return;
+  for (const food of foods) {
+    if (!food.ingredients) continue;
+    const alerts = detectIngredientWarnings(preferencias, food.ingredients);
+    if (alerts.length > 0) food._doc.alerts = alerts;
+  }
+}
 
 async function searchFoods(req, res) {
   try {
@@ -19,6 +35,8 @@ async function searchFoods(req, res) {
       Food.find(filter).sort({ name: 1 }).skip(skip).limit(limit),
       Food.countDocuments(filter),
     ]);
+
+    await attachIngredientWarnings(foods, req.userId);
 
     res.json({
       foods,
@@ -39,10 +57,30 @@ async function getFoodByBarcode(req, res) {
   try {
     const { barcode } = req.params;
     const food = await Food.findOne({ barcode });
-    if (!food) {
+
+    // Si está en la base local, se devuelve directo (con cache).
+    if (food) {
+      await attachIngredientWarnings([food], req.userId);
+      return res.json({ food });
+    }
+
+    // Si no, se consulta Open Food Facts y se guarda como cache.
+    const off = await buscarProductoOFF(barcode);
+    if (!off) {
       return res.status(404).json({ error: "Alimento no encontrado con ese código de barras." });
     }
-    res.json({ food });
+
+    const { score, tags } = calculateNutritionalScore({ nutritionPer100g: off.nutritionPer100g });
+    const nuevo = await Food.create({
+      barcode,
+      ...off,
+      category: "off",
+      nutritionalScore: score,
+      tags,
+    });
+
+    await attachIngredientWarnings([nuevo], req.userId);
+    res.json({ food: nuevo, fuente: "off" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Error del servidor al buscar por código de barras." });
@@ -113,6 +151,7 @@ async function getFoodById(req, res) {
     if (!food) {
       return res.status(404).json({ error: "Alimento no encontrado." });
     }
+    await attachIngredientWarnings([food], req.userId);
     res.json({ food });
   } catch (err) {
     console.error(err);

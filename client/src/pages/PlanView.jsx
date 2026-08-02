@@ -28,14 +28,27 @@ function IndicadorCard({ label, value, unit, color }) {
   )
 }
 
-function ComidaCard({ comida }) {
+function ComidaCard({ comida, onRegenerate, regenerating }) {
   return (
     <div className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 space-y-2">
       <div className="flex items-center justify-between">
         <h4 className="text-sm font-bold text-gray-900 dark:text-gray-100">{comida.tipo}</h4>
-        <span className="text-xs font-semibold text-brand-600 dark:text-brand-400">
-          {comida.calorias} kcal
-        </span>
+        <div className="flex items-center gap-2">
+          <span className="text-xs font-semibold text-brand-600 dark:text-brand-400">
+            {comida.calorias} kcal
+          </span>
+          {onRegenerate && (
+            <button
+              onClick={() => onRegenerate(comida.tipo)}
+              disabled={regenerating}
+              title="Regenerar esta comida"
+              className="flex items-center gap-1 px-2 py-1 text-[11px] font-medium text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-900/20 rounded-lg transition-colors"
+            >
+              <RefreshCw className={`w-3 h-3 ${regenerating ? 'animate-spin' : ''}`} />
+              Regenerar
+            </button>
+          )}
+        </div>
       </div>
       <div className="space-y-1">
         {comida.alimentos?.map((al, i) => (
@@ -54,6 +67,7 @@ export default function PlanView() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [regenerating, setRegenerating] = useState(false)
+  const [regeneratingMeal, setRegeneratingMeal] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -83,6 +97,19 @@ export default function PlanView() {
       setError(err.message || 'Error al regenerar el plan')
     } finally {
       setRegenerating(false)
+    }
+  }
+
+  const handleRegenerateMeal = async (tipo) => {
+    setRegeneratingMeal(tipo)
+    setError('')
+    try {
+      const data = await api.plan.regenerateMeal(tipo.toLowerCase())
+      setPlan(data.plan)
+    } catch (err) {
+      setError(err.message || 'Error al regenerar la comida')
+    } finally {
+      setRegeneratingMeal('')
     }
   }
 
@@ -263,7 +290,12 @@ export default function PlanView() {
           </div>
           <div className="space-y-3">
             {comidas.map((comida, i) => (
-              <ComidaCard key={i} comida={comida} />
+              <ComidaCard
+                key={i}
+                comida={comida}
+                onRegenerate={handleRegenerateMeal}
+                regenerating={regeneratingMeal === comida.tipo.toLowerCase()}
+              />
             ))}
           </div>
         </div>

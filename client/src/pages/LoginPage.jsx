@@ -68,7 +68,13 @@ export default function LoginPage() {
             <img src={logo} alt="Nutrix" className="w-full h-full object-cover" />
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">Nutrix</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Inicia sesión en tu cuenta</p>
+          <div className="flex items-center gap-2 mt-2">
+            <span className="w-6 h-0.5 bg-brand-400 rounded-full" />
+            <p className="text-[10px] font-light tracking-[0.3em] uppercase text-gray-500 dark:text-gray-400">
+              Tu guía de nutrición
+            </p>
+            <span className="w-6 h-0.5 bg-brand-400 rounded-full" />
+          </div>
         </div>
 
         <div className="card">

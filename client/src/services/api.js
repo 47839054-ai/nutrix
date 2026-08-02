@@ -91,6 +91,12 @@ export const api = {
   plan: {
     get: () => get('/api/plan'),
     generate: () => post('/api/plan/generate'),
+    regenerateMeal: (mealType) => post('/api/plan/regenerate-meal', { mealType }),
     catalog: () => get('/api/plan/catalog'),
+  },
+  recipes: {
+    get: () => get('/api/recipes'),
+    create: (data) => post('/api/recipes', data),
+    delete: (id) => del(`/api/recipes/${id}`),
   },
 }
