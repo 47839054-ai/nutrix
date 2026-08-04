@@ -59,6 +59,9 @@ export const api = {
     googleLogin: (credential) => post('/api/auth/google', { credential }),
     me: () => get('/api/auth/me'),
     updateProfile: (data) => patch('/api/auth/profile', data),
+    changePassword: (data) => patch('/api/auth/password', data),
+    forgotPassword: (email) => post('/api/auth/forgot-password', { email }),
+    resetPassword: (data) => post('/api/auth/reset-password', data),
   },
   foods: {
     search: (query, page = 1, limit = 20) =>
@@ -93,6 +96,7 @@ export const api = {
     generate: () => post('/api/plan/generate'),
     regenerateMeal: (mealType) => post('/api/plan/regenerate-meal', { mealType }),
     catalog: () => get('/api/plan/catalog'),
+    shoppingList: () => get('/api/plan/shopping-list'),
   },
   recipes: {
     get: () => get('/api/recipes'),

@@ -653,6 +653,112 @@ router.get("/", requireAuth, async (req, res) => {
   }
 });
 
+/* ---------------------------------------------------------------
+   LISTA DE COMPRAS — agrega los alimentos del plan en un solo lugar
+--------------------------------------------------------------- */
+const UNIDADES_COMPRA = {
+  unidad: "unidades",
+  rebanada: "rebanadas",
+  taza: "tazas",
+  cucharada: "cucharadas",
+  pote: "potes",
+  lata: "latas",
+  porcion: "porciones",
+  puñado: "puñados",
+  rodaja: "rodajas",
+  mediana: "medianas",
+  banana: "bananas",
+};
+
+function parsePorcionCompra(porcion) {
+  const s = String(porcion || "");
+  const res = { gramos: 0, ml: 0, count: 0, unidad: null };
+
+  const g = s.match(/(\d+(?:[.,]\d+)?)\s*g/);
+  if (g) res.gramos += parseFloat(g[1].replace(",", "."));
+
+  const ml = s.match(/(\d+(?:[.,]\d+)?)\s*ml/);
+  if (ml) res.ml += parseFloat(ml[1].replace(",", "."));
+
+  const n = s.match(/^(\d+(?:[.,]\d+)?|1\/2)\b/);
+  res.count += n ? (n[1].includes("/") ? 0.5 : parseFloat(n[1].replace(",", "."))) : 1;
+
+  const u = s.match(/(unidad|rebanada|taza|cucharada|pote|lata|porcion|puñado|rodaja|mediana|banana)s?/i);
+  if (u) res.unidad = u[1].toLowerCase();
+
+  return res;
+}
+
+function armarListaDeCompras(plan) {
+  const mapa = new Map();
+  for (const comida of plan.planComidas || []) {
+    for (const al of comida.alimentos || []) {
+      const clave = al.nombre.trim().toLowerCase();
+      if (!clave) continue;
+      const info = parsePorcionCompra(al.porcion);
+      const it = mapa.get(clave) || { nombre: al.nombre.trim(), gramos: 0, ml: 0, count: 0, unidad: null };
+      it.gramos += info.gramos;
+      it.ml += info.ml;
+      it.count += info.count;
+      if (!it.unidad && info.unidad) it.unidad = info.unidad;
+      mapa.set(clave, it);
+    }
+  }
+
+  const items = [];
+  for (const it of mapa.values()) {
+    let detalle;
+    if (it.gramos > 0) {
+      detalle =
+        it.gramos >= 1000
+          ? `${(Math.round((it.gramos / 1000) * 10) / 10).toLocaleString("es-AR")} kg`
+          : `${Math.round(it.gramos)} g`;
+    } else if (it.ml > 0) {
+      detalle =
+        it.ml >= 1000
+          ? `${(Math.round((it.ml / 1000) * 10) / 10).toLocaleString("es-AR")} L`
+          : `${Math.round(it.ml)} ml`;
+    } else if (it.unidad) {
+      const cant = Math.max(1, Math.ceil(it.count));
+      detalle = cant === 1 ? `1 ${it.unidad}` : `${cant} ${UNIDADES_COMPRA[it.unidad] || it.unidad + "s"}`;
+    } else {
+      const cant = Math.max(1, Math.ceil(it.count));
+      detalle = cant === 1 ? "1 porción" : `${cant} porciones`;
+    }
+    items.push({ nombre: it.nombre, detalle });
+  }
+  items.sort((a, b) => a.nombre.localeCompare(b.nombre, "es"));
+  return items;
+}
+
+// GET /api/plan/shopping-list — lista de compras derivada del plan actual
+router.get("/shopping-list", requireAuth, async (req, res) => {
+  try {
+    let plan = await Plan.findOne({ userId: req.userId }).sort({ createdAt: -1 });
+
+    const planVigente =
+      plan && plan.renuevaEl && new Date(plan.renuevaEl).getTime() > Date.now();
+    if (!planVigente) {
+      const answers = await TestAnswers.findOne({ userId: req.userId });
+      if (answers) plan = await generarNuevoPlan(req.userId, obtenerSeedActual());
+    }
+
+    if (!plan) return res.json({ hasPlan: false, items: [], products: [] });
+
+    const items = armarListaDeCompras(plan);
+    const products = (plan.productos || []).map((p) => ({
+      nombre: p.nombre,
+      motivo: p.motivo,
+      tags: p.tags || [],
+    }));
+
+    res.json({ hasPlan: true, items, products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Hubo un problema armando la lista de compras." });
+  }
+});
+
 // GET /api/plan/catalog — catálogo de restricciones y condiciones para el test
 router.get("/catalog", requireAuth, (req, res) => {
   res.json({

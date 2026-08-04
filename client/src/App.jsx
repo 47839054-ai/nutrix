@@ -5,6 +5,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import SplashScreen from './pages/SplashScreen'
 import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
+import ForgotPassword from './pages/ForgotPassword'
 import NutritionalTest from './pages/NutritionalTest'
 import PlanView from './pages/PlanView'
 import Dashboard from './pages/Dashboard'
@@ -13,6 +14,7 @@ import ProgressPage from './pages/ProgressPage'
 import HelpPage from './pages/HelpPage'
 import Profile from './pages/Profile'
 import Recipes from './pages/Recipes'
+import ShoppingList from './pages/ShoppingList'
 
 function App() {
   const { isAuthenticated, loading, user } = useAuth()
@@ -27,6 +29,10 @@ function App() {
       <Route
         path="/register"
         element={isAuthenticated ? <Navigate to="/app/dashboard" replace /> : <RegisterPage />}
+      />
+      <Route
+        path="/forgot-password"
+        element={isAuthenticated ? <Navigate to="/app/dashboard" replace /> : <ForgotPassword />}
       />
 
       {/* Test nutricional — wizard sin nav */}
@@ -54,6 +60,7 @@ function App() {
         <Route path="scan" element={<Scanner />} />
         <Route path="progress" element={<ProgressPage />} />
         <Route path="recipes" element={<Recipes />} />
+        <Route path="shopping-list" element={<ShoppingList />} />
         <Route path="help" element={<HelpPage />} />
         <Route path="profile" element={<Profile />} />
       </Route>

@@ -30,6 +30,8 @@ const userSchema = new mongoose.Schema(
     avatar: { type: String, default: "" },
     dailyWaterGoal: { type: Number, default: 2500 },
     testCompleted: { type: Boolean, default: false },
+    resetPasswordCode: { type: String, default: "" },
+    resetPasswordExpires: { type: Date, default: null },
   },
   { timestamps: true }
 );

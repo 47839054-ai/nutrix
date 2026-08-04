@@ -16,6 +16,7 @@ import {
   Scale,
   Utensils,
   Sparkles,
+  ShoppingCart,
 } from 'lucide-react'
 
 function IndicadorCard({ label, value, unit, color }) {
@@ -175,6 +176,14 @@ export default function PlanView() {
         >
           <RefreshCw className={`w-4 h-4 ${regenerating ? 'animate-spin' : ''}`} />
           Regenerar
+        </button>
+        <button
+          onClick={() => navigate('/app/shopping-list')}
+          title="Lista de compras"
+          className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-600 dark:text-brand-400 hover:bg-brand-50 dark:hover:bg-brand-900/20 rounded-xl transition-colors"
+        >
+          <ShoppingCart className="w-4 h-4" />
+          Lista
         </button>
         </div>
       </div>
@@ -351,6 +360,15 @@ export default function PlanView() {
           </ul>
         </div>
       )}
+
+      {/* Lista de compras */}
+      <button
+        onClick={() => navigate('/app/shopping-list')}
+        className="card w-full flex items-center justify-center gap-2 text-sm text-brand-600 dark:text-brand-400 font-semibold hover:bg-brand-50 dark:hover:bg-brand-900/20 transition-colors"
+      >
+        <ShoppingCart className="w-5 h-5" />
+        Ver lista de compras
+      </button>
 
       {/* Volver al test */}
       <button

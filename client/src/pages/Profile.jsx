@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import { useTheme } from '../contexts/ThemeContext'
 import { useNavigate } from 'react-router-dom'
+import { api } from '../services/api'
 import {
   User,
   Mail,
@@ -20,6 +21,10 @@ import {
   Check,
   ClipboardList,
   HelpCircle,
+  KeyRound,
+  Lock,
+  Eye,
+  EyeOff,
 } from 'lucide-react'
 
 const ACTIVITY_LEVELS = [
@@ -56,6 +61,12 @@ export default function Profile() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState('')
+
+  const [passForm, setPassForm] = useState({ current: '', nueva: '', confirm: '' })
+  const [passLoading, setPassLoading] = useState(false)
+  const [passError, setPassError] = useState('')
+  const [passSuccess, setPassSuccess] = useState('')
+  const [showPass, setShowPass] = useState(false)
 
   useEffect(() => {
     if (user) {
@@ -171,6 +182,39 @@ export default function Profile() {
   const handleLogout = () => {
     logout()
     navigate('/login')
+  }
+
+  const handleChangePassword = async (e) => {
+    e.preventDefault()
+    setPassError('')
+    setPassSuccess('')
+
+    if (!passForm.nueva) {
+      setPassError('Ingresá la contraseña nueva')
+      return
+    }
+    if (passForm.nueva.length < 6) {
+      setPassError('La contraseña nueva debe tener al menos 6 caracteres')
+      return
+    }
+    if (passForm.nueva !== passForm.confirm) {
+      setPassError('Las contraseñas no coinciden')
+      return
+    }
+
+    setPassLoading(true)
+    try {
+      await api.auth.changePassword({
+        currentPassword: passForm.current,
+        newPassword: passForm.nueva,
+      })
+      setPassSuccess('Contraseña actualizada correctamente')
+      setPassForm({ current: '', nueva: '', confirm: '' })
+    } catch (err) {
+      setPassError(err.message || 'Error al cambiar la contraseña')
+    } finally {
+      setPassLoading(false)
+    }
   }
 
   const bmi = calculateBMI()
@@ -433,6 +477,109 @@ export default function Profile() {
               <>
                 <Save className="w-5 h-5" />
                 <span>Guardar cambios</span>
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+
+      <div className="card">
+        <div className="flex items-center gap-2 mb-3">
+          <KeyRound className="w-5 h-5 text-brand-500" />
+          <h3 className="section-title mb-0">Cambiar contraseña</h3>
+        </div>
+
+        {passError && (
+          <div className="flex items-center gap-2 p-3 mb-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm">
+            <AlertCircle className="w-4 h-4 flex-shrink-0" />
+            <span>{passError}</span>
+          </div>
+        )}
+        {passSuccess && (
+          <div className="flex items-center gap-2 p-3 mb-4 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl text-green-600 dark:text-green-400 text-sm">
+            <Check className="w-4 h-4 flex-shrink-0" />
+            <span>{passSuccess}</span>
+          </div>
+        )}
+
+        <form onSubmit={handleChangePassword} className="space-y-4">
+          <div>
+            <label className="label">Contraseña actual</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type={showPass ? 'text' : 'password'}
+                value={passForm.current}
+                onChange={(e) => setPassForm({ ...passForm, current: e.target.value })}
+                className="input-field pl-11 pr-11"
+                placeholder="Tu contraseña actual"
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="label">Contraseña nueva</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type={showPass ? 'text' : 'password'}
+                value={passForm.nueva}
+                onChange={(e) => setPassForm({ ...passForm, nueva: e.target.value })}
+                className="input-field pl-11 pr-11"
+                placeholder="Mínimo 6 caracteres"
+                autoComplete="new-password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          <div>
+            <label className="label">Confirmar contraseña nueva</label>
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+              <input
+                type={showPass ? 'text' : 'password'}
+                value={passForm.confirm}
+                onChange={(e) => setPassForm({ ...passForm, confirm: e.target.value })}
+                className="input-field pl-11 pr-11"
+                placeholder="Repetí la contraseña nueva"
+                autoComplete="new-password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPass(!showPass)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              >
+                {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            disabled={passLoading}
+            className="btn-primary w-full flex items-center justify-center gap-2"
+          >
+            {passLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <>
+                <KeyRound className="w-5 h-5" />
+                <span>Actualizar contraseña</span>
               </>
             )}
           </button>
