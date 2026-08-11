@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "node --watch server/server.js",
-    "seed": "node server/seed/foods.js"
+    "seed": "node server/seed/foods.js",
+    "build": "npm --prefix client install && npm --prefix client run build"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.115.0",
