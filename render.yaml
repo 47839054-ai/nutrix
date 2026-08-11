@@ -1,0 +1,28 @@
+# Render Blueprint: despliega Nutrix con un click en https://render.com
+services:
+  - type: web
+    name: nutrix
+    runtime: node
+    plan: free
+    buildCommand: npm install && npm --prefix client install && npm --prefix client run build
+    startCommand: npm start
+    autoDeploy: true
+    envVars:
+      - key: MONGO_URI
+        sync: false
+        comment: "Cadena de conexion de MongoDB Atlas (ej: mongodb+srv://usuario:pass@cluster.mongodb.net/nutrix)"
+      - key: JWT_SECRET
+        generateValue: true
+        comment: "Se genera automaticamente y se guarda como secreto (nunca visible)"
+      - key: CORS_ORIGIN
+        value: "http://localhost:5173,http://localhost:3000,http://localhost,capacitor://localhost"
+      - key: NODE_ENV
+        value: production
+      - key: ANTHROPIC_API_KEY
+        sync: false
+        required: false
+        comment: "Opcional: clave de https://console.anthropic.com (sin ella, el plan usa el motor de reglas)"
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+        required: false
+        comment: "Opcional: para login con Google"
