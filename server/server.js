@@ -78,6 +78,10 @@ app.use("/api/meals", mealRoutes);
 app.use("/api/stats", statsRoutes);
 app.use("/api/recipes", recipeRoutes);
 
+app.get("/", (req, res) => {
+  res.json({ status: "ok", app: "Nutrix" });
+});
+
 const distDir = path.join(__dirname, "..", "client", "dist");
 const staticDir = fs.existsSync(path.join(distDir, "index.html"))
   ? distDir
