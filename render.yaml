@@ -4,7 +4,7 @@ services:
     name: nutrix
     runtime: node
     plan: free
-    buildCommand: cd client && npm install && npm run build && cd .. && npm install
+    buildCommand: cd client && npm install && npx vite build && cd .. && npm install
     startCommand: npm start
     autoDeploy: true
     envVars:
