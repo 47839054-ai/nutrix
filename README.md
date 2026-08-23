@@ -154,4 +154,4 @@ Seguí la guía paso a paso en **[DEPLOY.md](./DEPLOY.md)** (MongoDB Atlas grati
 
 ---
 
-*Proyecto personal desarrollado como parte de la formación en Desarrollo de Software.*
+*Proyecto desarrollado como parte de la carrera de Tecnicatura en Desarrollo de Software — Escuela Superior de Comercio N.º 49 "Justo José de Urquiza" (Terciario Urquiza), Rosario, Argentina.*
