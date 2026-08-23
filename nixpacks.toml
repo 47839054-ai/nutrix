@@ -1,0 +1,8 @@
+[phases.setup]
+nixPkgs = ["nodejs_18"]
+
+[phases.build]
+cmds = ["npm install", "npm --prefix client install", "npm --prefix client run build"]
+
+[start]
+cmd = "node server/server.js"
